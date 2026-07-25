@@ -1,0 +1,27 @@
+kind = "web"
+previewPath = "/"
+title = "Page Pulse"
+version = "1.0.0"
+id = "artifacts/page-pulse"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 24125
+
+[services.development]
+run = "pnpm --filter @workspace/page-pulse run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/page-pulse", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/page-pulse/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "24125"
+BASE_PATH = "/"
